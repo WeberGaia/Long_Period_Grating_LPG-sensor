@@ -18,7 +18,7 @@ dq = daq("ni");                                                             % In
 ch1 = addinput(dq, "Dev1", "ai15", "Voltage");                              % ch = addinput(dq,"channelID", "ai0","Voltage") - Add um canal para a aquisição de dados
 ch1.Range = [-1, 1];                                                        % Alterando o Range para -1.0 to 1.0 (sensibilidade)
 %% ALTERANDO A FREQUÊNCIA DE AMOSTRAGEM 
-Fs = 4800;                                                                  % Freqência de Amostragem
+Fs = 2400;                                                                  % Freqência de Amostragem
 dq.Rate = Fs;                                                               % Alterando a Fs padrão (1000) para 4800sps
 %% LEITURA DO SINAL PROVENIENTE DO AWG
 [datas,starTime] = read(dq,seconds(1));                                     % Leitura dos valores do sinal
