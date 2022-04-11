@@ -14,7 +14,7 @@ Ad = (Am*d)/100;                                                            % Am
 Mod_FBG = Lc + Am*cos(W0) + Ad*cos(2*W0);                                   % Sinal modulado da FBG 
 %% CARACTERIZAÇÃO DA LPG
 P0 = 0.31257;                                                               % Potência da fonte ótica
-a = 0.01;                                                                   % Largura de banda da banda de atenuação da LPG
+a = 0.008;                                                                  % Largura de banda da banda de atenuação da LPG
 m = 0.84;                                                                   % Amplitude Normalizada
 lbds = 1500:0.01:1590;                                                      % Variação de lambdas (S)
 banda = P0*(1-m*exp(-a*(Lr-lbds).^2));                                      % Banda de atenuação da LPG
