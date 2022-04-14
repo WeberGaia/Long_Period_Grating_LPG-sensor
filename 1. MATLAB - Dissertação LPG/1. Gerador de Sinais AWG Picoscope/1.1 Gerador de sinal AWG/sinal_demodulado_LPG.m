@@ -56,52 +56,52 @@ hold on
 % plot(lbds,banda)
 % hold on
 %% 1545nm
-[banda,lbds,Lr] = generator_CSV_lbds(1545);
-plot(lbds,banda)
-hold on
-%% 1544nm
-[banda,lbds,Lr] = generator_CSV_lbds(1544);
-plot(lbds,banda)
-hold on
-%% 1543nm
-[banda,lbds,Lr] = generator_CSV_lbds(1543);
-plot(lbds,banda)
-hold on
-%% 1542nm
-[banda,lbds,Lr] = generator_CSV_lbds(1542);
-plot(lbds,banda)
-hold on
-%% 1541nm
-[banda,lbds,Lr] = generator_CSV_lbds(1541);
-plot(lbds,banda)
-hold on
-%% 1540nm
-[banda,lbds,Lr] = generator_CSV_lbds(1540);
-plot(lbds,banda)
-hold on
-%% 1539nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1545);
+% plot(lbds,banda)
+% hold on
+% %% 1544nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1544);
+% plot(lbds,banda)
+% hold on
+% %% 1543nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1543);
+% plot(lbds,banda)
+% hold on
+% %% 1542nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1542);
+% plot(lbds,banda)
+% hold on
+% %% 1541nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1541);
+% plot(lbds,banda)
+% hold on
+% %% 1540nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1540);
+% plot(lbds,banda)
+% hold on
+% %% 1539nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1539);
+% plot(lbds,banda)
+% hold on
+% %% 1538nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1538);
+% plot(lbds,banda)
+% hold on
+% %% 1537nm
+% [banda,lbds,Lr] = generator_CSV_lbds(1537);
+% plot(lbds,banda)
+% hold on
+%% 1536nm
 [banda,lbds,Lr] = generator_CSV_lbds(1539);
 plot(lbds,banda)
 hold on
-%% 1538nm
-[banda,lbds,Lr] = generator_CSV_lbds(1538);
-plot(lbds,banda)
-hold on
-%% 1537nm
-[banda,lbds,Lr] = generator_CSV_lbds(1537);
-plot(lbds,banda)
-hold on
-%% 1536nm
-[banda,lbds,Lr] = generator_CSV_lbds(1536);
-plot(lbds,banda)
-hold on
 % xlim([1510 1580])
-%% 
-% lgd = legend('1555','1554','1553','1552','1551','1550','1549','1548'...
-%     ,'1547','1546','1545','1544','1543','1542','1541','1540','1539'...
+% %% 
+% % lgd = legend('1555','1554','1553','1552','1551','1550','1549','1548'...
+% %     ,'1547','1546','1545','1544','1543','1542','1541','1540','1539'...
+% %     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
+% % title(lgd,'\lambda_r(nm)')
+% lgd = legend('1545','1544','1543','1542','1541','1540','1539'...
 %     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
 % title(lgd,'\lambda_r(nm)')
-lgd = legend('1545','1544','1543','1542','1541','1540','1539'...
-    ,'1538','1537','1536','Location','southeast','FontWeight','bold');
-title(lgd,'\lambda_r(nm)')
 toc
