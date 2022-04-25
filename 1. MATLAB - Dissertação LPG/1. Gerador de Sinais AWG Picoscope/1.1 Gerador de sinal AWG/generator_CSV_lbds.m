@@ -2,9 +2,9 @@ function [banda,lbds,Lr] = generator_CSV_lbds(Lr)
 %UNTITLED Summary of this function goes here
 %% MODULADOR FBG
 Fs = 100000;                                                                % Frequência de Amostragem
-f = 400;                                                                    % Frequência de Modulação
+f = 1800;                                                                    % Frequência de Modulação
 L = 29999;                                                                  % Comprimento do canal
-Ts = 1/(100*L);                                                             % Período de Amostragem
+Ts = 1/(60*L);                                                             % Período de Amostragem
 t = (0:L-1)*Ts;                                                             % Vetor tempo
 W0 = 2*pi*f*t;                                                              % Frequência Angular
 Lc = 1540;                                                                  % Comprimento de Onda da FBG (nm)
