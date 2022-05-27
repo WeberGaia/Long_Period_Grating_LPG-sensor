@@ -3,8 +3,8 @@ function [banda,lbds,Lr] = generator_CSV_lbds(Lr)
 %% MODULADOR FBG
 Fs = 100000;                                                                % Frequência de Amostragem
 f = 1800;                                                                    % Frequência de Modulação
-L = 29999;                                                                  % Comprimento do canal
-Ts = 1/(60*L);                                                             % Período de Amostragem
+L = 23999;                                                                  % Comprimento do canal
+Ts = 1/(300*L);                                                             % Período de Amostragem
 t = (0:L-1)*Ts;                                                             % Vetor tempo
 W0 = 2*pi*f*t;                                                              % Frequência Angular
 Lc = 1540;                                                                  % Comprimento de Onda da FBG (nm)
@@ -16,7 +16,7 @@ Mod_FBG = Lc + Am*cos(W0) + Ad*cos(2*W0);                                   % Si
 P0 = 0.31257;                                                               % Potência da fonte ótica
 a = 0.01;                                                                   % Largura de banda da banda de atenuação da LPG
 m = 0.84;                                                                   % Amplitude Normalizada
-lbds = 1500:0.01:1590;                                                      % Variação de lambdas (S)
+lbds = 1500:0.01:1580;                                                      % Variação de lambdas (S)
 banda = P0*(1-m*exp(-a*(Lr-lbds).^2));                                      % Banda de atenuação da LPG
 %% SINAL DEMODULADO DA LPG
 signal_dem = P0*(1-m*exp(-a*(Lr-Mod_FBG).^2));
@@ -26,7 +26,7 @@ vetor_sum = sum(signal_dem);
 level_DC = vetor_sum/length(signal_dem);
 DC = signal_dem - level_DC;
 %% NORMALIZAÇÃO DO SINAL DEMODULADO DA LPG
-norm = DC/max(abs(DC))*0.8;
+norm = DC/max(abs(DC))*0.4;
 %% GRAVAÇÃO EM ARQUIVO CSV DOS VALORES CALCULADOS PARA O LAMBDA DE 1555nm
 if length(norm) == L && Lr == 1555
     writematrix(norm','C:\Users\weber\Desktop\Dissertação - Simulador e  Interrogador LPG\3. Arquivos MATLAB\6. Sinal demodulado LPG (teoria)\2. CSV\1555nm.csv')

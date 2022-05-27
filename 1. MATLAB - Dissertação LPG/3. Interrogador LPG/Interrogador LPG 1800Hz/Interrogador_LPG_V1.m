@@ -6,9 +6,9 @@
 %                    WEBER DE SOUZA GAIA FILHO                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Variáveis de Limpeza
-clc
-close all
 clear all
+close all
+clc
 %% Informações sobre o DAQ6216 - NI
 % d = daqlist;                                                              % Verificando se o DAQ está conectado
 % d(1,:)                                                                    % Plotando as informações do dispositivo
@@ -19,31 +19,33 @@ dq = daq("ni");                                                             % In
 ch1 = addinput(dq, "Dev1", "ai15", "Voltage");                              % ch = addinput(dq,"channelID", "ai0","Voltage") - Add um canal para a aquisição de dados
 ch1.Range = [-1, 1];                                                        % Alterando o Range para -1.0 to 1.0 (sensibilidade)
 %% ALTERANDO A FREQUÊNCIA DE AMOSTRAGEM 
-Fs = 10800;                                                                  % Freqência de Amostragem
+Fs = 32400;                                                                 % Freqência de Amostragem
 dq.Rate = Fs;                                                               % Alterando a Fs padrão (1000) para 2400sps
 %% LEITURA DO SINAL PROVENIENTE DO AWG
 [datas] = read(dq,seconds(1));                                              % Leitura dos valores do sinal
 aux1 = timetable2table(datas);                                              % Conversão de tipo de dados
 aux1(:,1) = [];                                                             % Excluindo a coluna tempo
-aux2 = table2array(aux1);                                                   % Conversão de tipo de dados
-%% VARIÁVEIS DE PARAMETRIZAÇÃO
-DAQ = aux2(1:Fs);                                                                 % Alteração do nome da variável principal
-clear aux2                                                                  % Exclusão da variável aux2
-L = length(DAQ);                                                            % Tamanho da variável do sinal
+aux2 = table2array(aux1);                           
+DAQ = aux2;
+clear aux2
 %% TRANSFORMADA RÁPIDA DE FOURIER
+L = length(DAQ);
 Y = fft(DAQ);                                                               % Transformada Rápida de Fourier
 P = abs(Y/L);                                                               % Normalização dos valores absolutos da FFT
 P1 = P(1:L/2+1);                                                            % Manipulação de dados
 P1(:,2:end-1) = 2*P1(:,2:end-1);                                            % Manipulação de dados
-freq = length(DAQ)*(0:(L/2))/L;                                             % Vetor Frequência 
+% freq = length(DAQ)*(0:(L/2))/L/2;                                         % Vetor Frequência 2s
+freq = length(DAQ)*(0:(L/2))/L;                                             % Vetor Frequência 1s
 %% FASE
 fase0 = angle(Y);                                                           % Cálculo da fase
 fase1 = fase0/L;                                                            % Normalização da fase
-indice_H1 = ceil((((Fs/2)*400)/(Fs/2)));                                    % Cálculo para encontrar o índice de H1
+indice_H1 = ceil((((Fs/2)*1800)/(Fs/2)));                                   % Cálculo para encontrar o índice de H1
 indice_H2 = indice_H1*2;                                                    % Cálculo para encontrar o índice de H2
 %% CÁLCULO DE H
-H1 = abs(P1(indice_H1+1));                                                    % Primeiro Harmônico
-H2 = abs(P1(indice_H2+1));                                                    % Segundo Harmônico
+H1 = abs(P1(indice_H1+1));                                                  % Primeiro Harmônico
+H2 = abs(P1(indice_H2+1));                                                  % Segundo Harmônico
+% H1 = abs(P1(indice_H1));                                                    % Primeiro Harmônico
+% H2 = abs(P1(indice_H2-1));                                                  % Segundo Harmônico
 H = H1/H2;                                                                  % Relação entre os harmônicos
 H1 = 10*log10(H1);                                                          % Arredondamento para duas casas decimais de H1
 H2 = 10*log10(H2);                                                          % Arredondamento para duas casas decimais de H2
@@ -70,64 +72,55 @@ C = k20.*H-k10;                                                             % C�
 %% DETERMINAÇÃO DO LAMBDA R
 S2 = (-B + sqrt(B.^2 - 4*A.*C))/(2*A);                                      % Cálculo das raízes
 S1 = (-B - sqrt(B.^2 - 4*A.*C))/(2*A);                                      % Cálculo das raízes
-L1= S1 + Lc;                                                                % Verificação do valor de cada raíz
-L2= S2 + Lc;                                                                % Verificação do valor de cada raíz
+                                                                            % Verificação do valor de cada raíz
 fase = rad2deg(fase1(indice_H2));                                           % Fase do segundo harmônico
 
 if fase > 0                                                                 % Condição para a determinação de Lr
-    Lr = S1 + Lc;
+    Lr = round(S1 + Lc,2);
 else
-    Lr = S2  + Lc;
+    Lr = round(S2  + Lc,2);
 end
-%% DISTORÇÃO HARMÔNICA TOTAL
-[th] = thd(DAQ,Fs,2);                                                       % Cálculo da THD
-THD_percent = 100*(10^(th/20));                                             % Cálculo da porcentagem da THD
-%% RELAÇÃO SINAL-RUÍDO
-[SNR] = snr(DAQ,Fs,2);                                                      % Relação sinal-ruído
-toc
-%% PLOTAGEM GRÁFICA 
-% fh1 = figure(1);                                                            % Figura 
-% fh1.WindowState = 'maximized';                                              % Maximização da tela da figura
-% % subplot(2,2,1)
-% plot(datas.Time, datas.Dev1_ai15,'k');                                      % Plot do sinal 
-% tit = ['Sinal demodulado da LPG c/ ','\color{blue}',num2str(Fs),'sps'];     % Strings dinâmica    
-% title(tit,'FontWeight','bold')                                              % Função para plotar título
-% grid on                                                                     % Inserindo grade no gráfico
-% legend('Sinal Modulado')                                                    % Inserindo legenda
-% xlabel('Tempo (ms)')                                                        % Inserindo nome do eixo X
-% ylabel('Tensão (V)')                                                        % Inserindo nome do eixo Y
-% xlim(seconds([0 0.02]))                                                     % Limitando as coordenadas do eixo X
+%% 
+fh1 = figure(1);                                                            % Figura 
+fh1.WindowState = 'maximized';                                              % Maximização da tela da figura
+subplot(2,2,1)
+plot(datas.Time, datas.Dev1_ai15,'k');                                      % Plot do sinal 
+legend('Sinal Demodulado')                                                  % Inserindo legenda
+xlabel('Tempo (ms)')                                                        % Inserindo nome do eixo X
+ylabel('Tensão (V)')                                                        % Inserindo nome do eixo Y
+tit = ['Sinal demodulado da LPG c/ ','\color{red}',num2str(Fs),'sps'];      % Strings dinâmica    
+title(tit,'FontWeight','bold')                                              % Função para plotar título
+grid on                                                                     % Inserindo grade no gráfico
+xlim(seconds([0 0.01]))                                                     % Limitando as coordenadas do eixo X
 
-% subplot(2,2,2)
-fh2 = figure(2);                                                            % Figura
-fh2.WindowState = 'maximized';                                              % Maximização da tela da figura
-plot(freq,10*log10(P1),'b')                                                 % Plot do sinal
-sub = ['Lr: ','\color{blue}',num2str(Lr),'nm        ','\color{red}','Fs: ',num2str(Fs)];                             % Strings dinâmica
-% Lr2 = [1536,1537,1538,1539,1540,1541,1542,1543,1544,1545,1546,1547];
-tit = ['Interrogador LPG para ',num2str(1543),'nm c/ distorção de ',num2str(d),'%'];
-save('C:\Users\weber\Desktop\Resultados Experimentais\Taxa de amostragem - 14400sps\Distorção 0%\DAQ_1543nm')
-title(tit)                                                                  % Função para plotar título
-subtitle(sub,'FontWeight','bold')                                           % Função para plotar sub-titulo    
-txt1 = [' \leftarrow H1: ',num2str(H1),' dB'];                              % Strings dinâmica para plotar o valor de H1
-txt2 = [' \leftarrow H2: ',num2str(H2),' dB'];                              % Strings dinâmica para plotar o valor de H2
-text(indice_H1,H1,txt1,'FontWeight','bold','FontSize',11)                   % Função para indicação no gráfico
-text(indice_H2,H2,txt2,'FontWeight','bold','FontSize',11)                   % Função para indicação no gráfico
-grid on                                                                     % Grade gráfica
-grid minor                                                                  % Grade gráfica
-xlabel('Frequência(Hz)')
-ylabel('Magnitude(dB)')
-xlim([0 1200*2])
+subplot(2,2,2)
+plot(freq,10*log10(P1),'b')
+ylabel('Amplitude(dB)')
+xlabel('Frequência (Hz)')
+grid on
+grid minor
+tit2 = ['Transformada Rápida de Fourier','\color{red}','          Lr:',num2str(Lr),'nm'];
+title(tit2)
+% txt1 = [' \leftarrow H1: ',num2str(H1),' dB'];                              % Strings dinâmica para plotar o valor de H1
+% txt2 = [' \leftarrow H2: ',num2str(H2),' dB'];                              % Strings dinâmica para plotar o valor de H2
+% text(indice_H1,H1,txt1,'FontWeight','bold','FontSize',11)                   % Função para indicação no gráfico
+% text(indice_H2,H2,txt2,'FontWeight','bold','FontSize',11)                   % Função para indicação no gráfico
+xlim([0 10000])
+
+subplot(2,2,3)
+snr(DAQ,Fs,3);
+ylim([-150 0])
+
+subplot(2,2,4)
+thd(DAQ,Fs,3);
+%% 
+[SNR] = snr(DAQ,Fs,3);
+[th] = thd(DAQ,Fs,3);
+THD_percent = 100*(10^(th/20));
+%% SALVANDO O ARQUIVO EM DIRETÓRIO ESPECÍFICO
+% save('C:\Users\weber\Desktop\Resultados Experimentais\1800Hz\Taxa de amostragem - 32400sps\Distorção 12%\DAQ_1536nm')
+
 format long
-L1
-L2
-% figure(3)
-% % subplot(2,2,3)
-% snr(DAQ,Fs,2);
-
-% figure(4)
-% % subplot(2,2,4)
-% thd(DAQ,Fs,2);
-%% SALVAR A AQUISIÇÃO DE DADOS EM UM LOCAL ESPECÍFICO
-% save('C:\Users\weber\Desktop\Resultados Experimentais\Distorção 12%\DAQ_1555nm')
-%% OBSERVAÇÕES
-% Código produzido para interrogar sensor LPG com frequência de 1800Hz
+L1= S1 + Lc                                                                % Verificação do valor de cada raíz
+L2= S2 + Lc  
+toc

@@ -29,7 +29,7 @@ aux1 = timetable2table(datas);                                              % Co
 aux1(:,1) = [];                                                             % Excluindo a coluna tempo
 aux2 = table2array(aux1);                                                   % Conversão de tipo de dados
 %% VARIÁVEIS DE PARAMETRIZAÇÃO
-DAQ = aux2(1:Fs);                                                                 % Alteração do nome da variável principal
+DAQ = aux2;                                                                 % Alteração do nome da variável principal
 clear aux2                                                                  % Exclusão da variável aux2
 L = length(DAQ);                                                            % Tamanho da variável do sinal
 %% TRANSFORMADA RÁPIDA DE FOURIER
