@@ -2,15 +2,15 @@ function [banda,lbds,Lr] = generator_CSV_lbds(Lr)
 %UNTITLED Summary of this function goes here
 %% MODULADOR FBG
 Fs = 100000;                                                                % Frequência de Amostragem
-% f = 1800;                                                                   % Frequência de Modulação
+% f = 1800;                                                                 % Frequência de Modulação
 f = 400;
-L = 11999;                                                                  % Comprimento do canal
-Ts = 1/(100*L);                                                              % Período de Amostragem
+L = 7999;                                                                  % Comprimento do canal
+Ts = 1/(40*L);                                                             % Período de Amostragem
 t = (0:L-1)*Ts;                                                             % Vetor tempo
 W0 = 2*pi*f*t;                                                              % Frequência Angular
 Lc = 1540;                                                                  % Comprimento de Onda da FBG (nm)
 Am = 0.44;                                                                  % Amplitude de Modulação
-d = 1;                                                                   % Percentual de distorção
+d = 3.35;                                                                      % Percentual de distorção
 Ad = (Am*d)/100;                                                            % Amplitude de distorção do modulador
 Mod_FBG = Lc + Am*cos(W0) + Ad*cos(2*W0);                                   % Sinal modulado da FBG 
 %% CARACTERIZAÇÃO DA LPG
@@ -27,7 +27,7 @@ vetor_sum = sum(signal_dem);
 level_DC = vetor_sum/length(signal_dem);
 DC = signal_dem - level_DC;
 %% NORMALIZAÇÃO DO SINAL DEMODULADO DA LPG
-norm = DC/max(abs(DC))*0.5;
+norm = DC/max(abs(DC))*0.4;
 %% GRAVAÇÃO EM ARQUIVO CSV DOS VALORES CALCULADOS PARA O LAMBDA DE 1555nm
 if length(norm) == L && Lr == 1555
     writematrix(norm','C:\Users\weber\Desktop\Dissertação - Simulador e  Interrogador LPG\3. Arquivos MATLAB\6. Sinal demodulado LPG (teoria)\2. CSV\1555nm.csv')
@@ -140,4 +140,6 @@ end
 % L = 11999;                                                                  % Comprimento do canal
 % Ts = 1/(60*L);                                                              % Período de Amostragem
 %% CONFIGURAÇÕES PARA 400Hz
-
+% f = 400;
+% L = 7999;                                                                  % Comprimento do canal
+% Ts = 1/(40*L);                                                             % Período de Amostragem

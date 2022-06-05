@@ -7,7 +7,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% VARIÁVEIS DE LIMPEZA
 clear all
-close all
+close all                                                                        
 clc
 %% 1555 nm
 tic
