@@ -11,7 +11,7 @@ close all
 clc
 %% 1555 nm
 tic
-[banda,lbds,Lr] = generator_CSV_lbds(1555);
+[banda,lbds,~] = generator_CSV_lbds(1555);
 figure(1)
 plot(lbds,banda)
 title('Variação de \lambda_r','FontWeight','bold')
@@ -127,11 +127,11 @@ plot(lbds,banda)
 hold on
 xlim([1510 1580])
 %% 
-% lgd = legend('1555','1554','1553','1552','1551','1550','1549','1548'...
-%     ,'1547','1546','1545','1544','1543','1542','1541','1540','1539'...
-%     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
-% title(lgd,'\lambda_r(nm)')
-% lgd = legend('1545','1544','1543','1542','1541','1540','1539'...
-%     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
-% title(lgd,'\lambda_r(nm)')
+% % lgd = legend('1555','1554','1553','1552','1551','1550','1549','1548'...
+% %     ,'1547','1546','1545','1544','1543','1542','1541','1540','1539'...
+% %     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
+% % title(lgd,'\lambda_r(nm)')
+% % lgd = legend('1545','1544','1543','1542','1541','1540','1539'...
+% %     ,'1538','1537','1536','Location','southeast','FontWeight','bold');
+% % title(lgd,'\lambda_r(nm)')
 toc
