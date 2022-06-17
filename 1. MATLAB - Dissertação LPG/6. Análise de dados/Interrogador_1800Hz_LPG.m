@@ -11,7 +11,7 @@ close all
 clc
 xmin = 0;
 xmax = 5000;
-ymin = -50;
+ymin = -55;
 ymax = 0;
 %% DISTORÇÃO 1%
 format long
