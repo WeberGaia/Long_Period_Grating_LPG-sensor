@@ -11,7 +11,7 @@ close all
 clc
 xmin = 0;
 xmax = 5000;
-ymin = -55;
+ymin = -50;
 ymax = 0;
 %% DISTORÇÃO 1%
 format long
@@ -35,7 +35,6 @@ ylabel('Amplitude (dB)')
 grid on
 grid minor
 %% DISTORÇÃO 2%
-lambda = 1530;
 d = 2;
 [freq,P1,Lr,H1,H2,indice_H1,indice_H2] = Interrogador_1800Hz(lambda,d);
 figure(2)
@@ -55,7 +54,6 @@ ylabel('Amplitude (dB)')
 grid on
 grid minor
 %% DISTORÇÃO 3%
-lambda = 1530;
 d = 3;
 [freq,P1,Lr,H1,H2,indice_H1,indice_H2] = Interrogador_1800Hz(lambda,d);
 figure(3)
@@ -75,7 +73,6 @@ ylabel('Amplitude (dB)')
 grid on
 grid minor
 %% DISTORÇÃO 3.35%
-lambda = 1530;
 d = 3.35;
 [freq,P1,Lr,H1,H2,indice_H1,indice_H2] = Interrogador_1800Hz(lambda,d);
 figure(4)
